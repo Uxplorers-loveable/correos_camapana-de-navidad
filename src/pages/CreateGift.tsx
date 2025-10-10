@@ -4,18 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import StepIndicator from "@/components/StepIndicator";
 import GiftCard from "@/components/GiftCard";
 import Snowfall from "@/components/Snowfall";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-
-const steps = ["Datos", "Diseño", "Monto", "Detalles", "Confirmar"];
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 
 const CreateGift = () => {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(-1); // -1 = info screen, 0+ = form steps
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
@@ -26,6 +23,7 @@ const CreateGift = () => {
     from: "",
     to: "",
     deliveryMethod: "",
+    deliveryContact: "",
     deliveryDate: "",
     deliveryTime: "",
   });
@@ -34,14 +32,26 @@ const CreateGift = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const formatAmount = (value: string) => {
+    const numbers = value.replace(/[^\d]/g, '');
+    if (!numbers) return '';
+    const number = parseInt(numbers);
+    return number.toLocaleString('es-CO');
+  };
+
+  const handleAmountChange = (value: string) => {
+    const formatted = formatAmount(value);
+    updateFormData("amount", formatted);
+  };
+
   const nextStep = () => {
     if (validateCurrentStep()) {
-      setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+      setCurrentStep(prev => prev + 1);
     }
   };
 
   const prevStep = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 0));
+    setCurrentStep(prev => prev - 1);
   };
 
   const validateCurrentStep = () => {
@@ -59,7 +69,13 @@ const CreateGift = () => {
         }
         break;
       case 3:
-        if (!formData.from || !formData.to || !formData.deliveryMethod) {
+        if (!formData.from || !formData.to) {
+          toast.error("Por favor completa todos los campos");
+          return false;
+        }
+        break;
+      case 4:
+        if (!formData.deliveryMethod || !formData.deliveryContact) {
           toast.error("Por favor completa todos los campos");
           return false;
         }
@@ -75,30 +91,173 @@ const CreateGift = () => {
     setTimeout(() => navigate("/"), 2000);
   };
 
+  // Info screen before starting
+  if (currentStep === -1) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
+        <Snowfall />
+        
+        <div className="container mx-auto px-4 max-w-4xl">
+          <Button
+            variant="ghost"
+            onClick={() => navigate("/")}
+            className="mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Volver
+          </Button>
+
+          <div className="text-center mb-12 animate-fade-in">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">
+              ¿Cómo funciona tu Smart Gift?
+            </h1>
+            <p className="text-lg text-muted-foreground">
+              Sigue estos pasos para crear un regalo que crece con el tiempo
+            </p>
+          </div>
+
+          <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 md:p-12 mb-8 animate-fade-in">
+            <div className="space-y-8">
+              {[
+                { title: "Crea tu gift card personalizada", desc: "Elige el diseño, monto y mensaje perfecto" },
+                { title: "Elige cuándo y cómo será entregada", desc: "Programa la fecha y selecciona el método de envío" },
+                { title: "La persona que la reciba podrá activarla en 30 días", desc: "Tu destinatario tendrá tiempo para activar su regalo" },
+                { title: "Skandia la guiará para seleccionar su producto de inversión", desc: "Un asesor especializado ayudará a elegir la mejor opción" },
+                { title: "Te notificaremos para que realices el pago", desc: "Recibirás instrucciones para completar tu Smart Gift" }
+              ].map((step, index) => (
+                <div key={index} className="flex gap-4 items-start">
+                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">{step.title}</h3>
+                    <p className="text-muted-foreground">{step.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Button 
+              size="lg"
+              variant="skandia"
+              onClick={() => setCurrentStep(0)}
+            >
+              Empezar mi regalo
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Confirmation screen with snowfall
+  if (currentStep === 6) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
+        <Snowfall />
+        
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              Confirma tu regalo
+            </h1>
+            <p className="text-muted-foreground">
+              Revisa los detalles antes de enviar
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 space-y-3 text-sm animate-fade-in">
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-muted-foreground">Para:</span>
+                <span className="font-medium">{formData.to}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-muted-foreground">De:</span>
+                <span className="font-medium">{formData.from}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-muted-foreground">Monto:</span>
+                <span className="font-medium text-lg">${formData.amount}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-muted-foreground">Ocasión:</span>
+                <span className="font-medium capitalize">{formData.occasion}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-muted-foreground">Entrega:</span>
+                <span className="font-medium capitalize">{formData.deliveryMethod}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-muted-foreground">Contacto:</span>
+                <span className="font-medium">{formData.deliveryContact}</span>
+              </div>
+              {formData.deliveryDate && (
+                <div className="flex justify-between py-2 border-b">
+                  <span className="text-muted-foreground">Fecha:</span>
+                  <span className="font-medium">{formData.deliveryDate} {formData.deliveryTime}</span>
+                </div>
+              )}
+              <div className="py-2">
+                <span className="text-muted-foreground block mb-1">Mensaje:</span>
+                <p className="text-foreground italic">"{formData.message}"</p>
+              </div>
+
+              <div className="flex gap-4 pt-6">
+                <Button variant="outline" onClick={prevStep} className="flex-1">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Anterior
+                </Button>
+                <Button 
+                  onClick={handleSubmit} 
+                  variant="skandia"
+                  className="flex-1"
+                >
+                  <Check className="mr-2 h-4 w-4" />
+                  Confirmar y enviar
+                </Button>
+              </div>
+            </div>
+
+            <div className="sticky top-8">
+              <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8">
+                <h3 className="text-lg font-semibold mb-4 text-center">Vista previa</h3>
+                <GiftCard
+                  template={formData.template}
+                  amount={formData.amount}
+                  message={formData.message}
+                  from={formData.from}
+                  to={formData.to}
+                  className="mx-auto"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
-      <Snowfall />
-      
       <div className="container mx-auto px-4 max-w-6xl">
         <Button
           variant="ghost"
-          onClick={() => navigate("/")}
+          onClick={() => currentStep === 0 ? setCurrentStep(-1) : prevStep()}
           className="mb-6"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Volver
+          {currentStep === 0 ? "Volver a información" : "Anterior"}
         </Button>
 
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             Crea tu Smart Gift
           </h1>
-          <p className="text-muted-foreground">
-            Personaliza tu regalo inteligente paso a paso
-          </p>
         </div>
-
-        <StepIndicator steps={steps} currentStep={currentStep} />
 
         <div className="grid md:grid-cols-2 gap-8 items-start">
           {/* Form Section */}
@@ -108,7 +267,7 @@ const CreateGift = () => {
                 <div>
                   <h2 className="text-2xl font-bold mb-2">Tus datos</h2>
                   <p className="text-muted-foreground">
-                    Papá Noel necesita tus datos para registrar tu línea de inversión personalizada
+                    Necesitamos tus datos de contacto
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -141,7 +300,7 @@ const CreateGift = () => {
                 <div>
                   <h2 className="text-2xl font-bold mb-2">Elige el diseño</h2>
                   <p className="text-muted-foreground">
-                    Selecciona la envoltura mágica de tu inversión
+                    Selecciona tu diseño favorito
                   </p>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
@@ -167,18 +326,18 @@ const CreateGift = () => {
                 <div>
                   <h2 className="text-2xl font-bold mb-2">Monto y ocasión</h2>
                   <p className="text-muted-foreground">
-                    Tu regalo no es una cifra, es un sueño que empieza hoy
+                    Define el valor de tu Smart Gift
                   </p>
                 </div>
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="amount">Monto del regalo</Label>
+                    <Label htmlFor="amount">Monto del regalo (COP)</Label>
                     <Input
                       id="amount"
                       type="text"
-                      placeholder="500,000"
+                      placeholder="500.000,00"
                       value={formData.amount}
-                      onChange={(e) => updateFormData("amount", e.target.value)}
+                      onChange={(e) => handleAmountChange(e.target.value)}
                     />
                   </div>
                   <div>
@@ -213,9 +372,9 @@ const CreateGift = () => {
             {currentStep === 3 && (
               <div className="space-y-6 animate-fade-in">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Detalles de entrega</h2>
+                  <h2 className="text-2xl font-bold mb-2">Nombres</h2>
                   <p className="text-muted-foreground">
-                    Personaliza quién lo envía y quién lo recibe
+                    ¿Quién envía y quién recibe?
                   </p>
                 </div>
                 <div className="space-y-4">
@@ -237,11 +396,30 @@ const CreateGift = () => {
                       onChange={(e) => updateFormData("to", e.target.value)}
                     />
                   </div>
+                </div>
+              </div>
+            )}
+
+            {currentStep === 4 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">Método de entrega</h2>
+                  <p className="text-muted-foreground">
+                    ¿Cómo enviamos tu Smart Gift?
+                  </p>
+                </div>
+                <div className="space-y-4">
                   <div>
-                    <Label htmlFor="deliveryMethod">Método de entrega</Label>
-                    <Select value={formData.deliveryMethod} onValueChange={(value) => updateFormData("deliveryMethod", value)}>
+                    <Label htmlFor="deliveryMethod">Método</Label>
+                    <Select 
+                      value={formData.deliveryMethod} 
+                      onValueChange={(value) => {
+                        updateFormData("deliveryMethod", value);
+                        updateFormData("deliveryContact", "");
+                      }}
+                    >
                       <SelectTrigger>
-                        <SelectValue placeholder="¿Cómo lo enviamos?" />
+                        <SelectValue placeholder="Selecciona un método" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="email">📧 Correo electrónico</SelectItem>
@@ -249,9 +427,48 @@ const CreateGift = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                  
+                  {formData.deliveryMethod === "email" && (
+                    <div>
+                      <Label htmlFor="deliveryContact">Correo electrónico del destinatario</Label>
+                      <Input
+                        id="deliveryContact"
+                        type="email"
+                        placeholder="destinatario@email.com"
+                        value={formData.deliveryContact}
+                        onChange={(e) => updateFormData("deliveryContact", e.target.value)}
+                      />
+                    </div>
+                  )}
+                  
+                  {formData.deliveryMethod === "whatsapp" && (
+                    <div>
+                      <Label htmlFor="deliveryContact">Número de WhatsApp</Label>
+                      <Input
+                        id="deliveryContact"
+                        type="tel"
+                        placeholder="+57 300 123 4567"
+                        value={formData.deliveryContact}
+                        onChange={(e) => updateFormData("deliveryContact", e.target.value)}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {currentStep === 5 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">Fecha de envío</h2>
+                  <p className="text-muted-foreground">
+                    ¿Cuándo enviamos tu Smart Gift?
+                  </p>
+                </div>
+                <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="deliveryDate">Fecha de envío</Label>
+                      <Label htmlFor="deliveryDate">Fecha</Label>
                       <Input
                         id="deliveryDate"
                         type="date"
@@ -273,43 +490,6 @@ const CreateGift = () => {
               </div>
             )}
 
-            {currentStep === 4 && (
-              <div className="space-y-6 animate-fade-in">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">Confirma tu regalo</h2>
-                  <p className="text-muted-foreground">
-                    Revisa los detalles antes de enviar
-                  </p>
-                </div>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-muted-foreground">Para:</span>
-                    <span className="font-medium">{formData.to}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-muted-foreground">De:</span>
-                    <span className="font-medium">{formData.from}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-muted-foreground">Monto:</span>
-                    <span className="font-medium text-lg">${formData.amount}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-muted-foreground">Ocasión:</span>
-                    <span className="font-medium capitalize">{formData.occasion}</span>
-                  </div>
-                  <div className="flex justify-between py-2 border-b">
-                    <span className="text-muted-foreground">Entrega:</span>
-                    <span className="font-medium capitalize">{formData.deliveryMethod}</span>
-                  </div>
-                  <div className="py-2">
-                    <span className="text-muted-foreground block mb-1">Mensaje:</span>
-                    <p className="text-foreground italic">"{formData.message}"</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <div className="flex gap-4 mt-8">
               {currentStep > 0 && (
                 <Button variant="outline" onClick={prevStep} className="flex-1">
@@ -317,19 +497,14 @@ const CreateGift = () => {
                   Anterior
                 </Button>
               )}
-              {currentStep < steps.length - 1 ? (
-                <Button onClick={nextStep} className="flex-1 bg-primary">
-                  Siguiente
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              ) : (
-                <Button 
-                  onClick={handleSubmit} 
-                  className="flex-1 bg-gradient-to-r from-[hsl(var(--christmas-gold))] to-[hsl(var(--christmas-red))] text-white font-semibold shadow-[var(--shadow-festive)]"
-                >
-                  Confirmar y enviar
-                </Button>
-              )}
+              <Button 
+                onClick={nextStep} 
+                variant="skandia"
+                className="flex-1"
+              >
+                Siguiente
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </div>
           </div>
 

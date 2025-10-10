@@ -73,7 +73,7 @@ const ActivateGift = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
-      <Snowfall />
+      {step === "form" && <Snowfall />}
       
       <div className="container mx-auto px-4 max-w-4xl">
         <Button
@@ -109,7 +109,7 @@ const ActivateGift = () => {
                 </div>
                 <Button 
                   size="lg"
-                  className="bg-gradient-to-r from-[hsl(var(--christmas-gold))] to-[hsl(var(--christmas-red))] text-white font-semibold shadow-[var(--shadow-festive)] hover:scale-105 transition-transform duration-300"
+                  variant="skandia"
                   onClick={() => setStep("options")}
                 >
                   Activar mi Smart Gift
@@ -152,8 +152,8 @@ const ActivateGift = () => {
             <div className="text-center">
               <Button 
                 size="lg"
+                variant="skandia"
                 onClick={() => setStep("form")}
-                className="bg-primary"
               >
                 Explorar opciones de inversión
               </Button>
@@ -218,7 +218,8 @@ const ActivateGift = () => {
 
                 <Button 
                   size="lg"
-                  className="w-full bg-gradient-to-r from-[hsl(var(--christmas-gold))] to-[hsl(var(--christmas-red))] text-white font-semibold shadow-[var(--shadow-festive)] hover:scale-105 transition-transform duration-300"
+                  variant="skandia"
+                  className="w-full"
                   onClick={handleActivate}
                 >
                   Confirmar activación

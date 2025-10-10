@@ -9,21 +9,25 @@ interface GiftCardProps {
   className?: string;
 }
 
+import template1 from "@/assets/gift-card-template-1.jpg";
+import template2 from "@/assets/gift-card-template-2.jpg";
+import template3 from "@/assets/gift-card-template-3.jpg";
+
 const templates = {
   1: {
     bg: "bg-gradient-to-br from-[hsl(182,55%,45%)] to-[hsl(182,75%,22%)]",
-    image: "/src/assets/gift-card-template-1.jpg",
+    image: template1,
     name: "Winter Teal"
   },
   2: {
-    bg: "bg-gradient-to-br from-[hsl(0,85%,55%)] to-[hsl(0,75%,40%)]",
-    image: "/src/assets/gift-card-template-2.jpg",
-    name: "Festive Red"
+    bg: "bg-gradient-to-br from-[hsl(152,65%,35%)] to-[hsl(152,75%,25%)]",
+    image: template2,
+    name: "Forest Green"
   },
   3: {
-    bg: "bg-gradient-to-br from-[hsl(182,65%,32%)] to-[hsl(152,65%,35%)]",
-    image: "/src/assets/gift-card-template-3.jpg",
-    name: "Elegant Forest"
+    bg: "bg-gradient-to-br from-[hsl(182,65%,32%)] to-[hsl(182,75%,22%)]",
+    image: template3,
+    name: "Winter Landscape"
   }
 };
 
@@ -34,11 +38,15 @@ const GiftCard = ({ template, amount, message, from, to, className }: GiftCardPr
     <div 
       className={cn(
         "relative w-full max-w-md aspect-square rounded-2xl overflow-hidden shadow-[var(--shadow-card)] card-reveal",
-        selectedTemplate.bg,
         className
       )}
     >
-      <div className="absolute inset-0 bg-black/10" />
+      <img 
+        src={selectedTemplate.image} 
+        alt={selectedTemplate.name}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/30" />
       <div className="relative h-full flex flex-col justify-between p-8 text-white">
         <div className="space-y-2">
           <div className="text-sm font-medium opacity-90">Smart Gift by Skandia</div>

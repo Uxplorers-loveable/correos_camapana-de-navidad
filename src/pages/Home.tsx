@@ -25,19 +25,14 @@ const Home = () => {
               </h1>
               
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Papá Noel se reinventó. Ya no reparte cosas que se acaban, ahora regala 
-                <span className="text-primary font-semibold"> crecimiento, oportunidades y futuro</span>.
-              </p>
-              
-              <p className="text-lg text-foreground">
-                Regala una inversión que perdurará para siempre. Convierte un momento especial 
-                en una oportunidad que crece con el tiempo.
+                Regalos que crecen con el tiempo.<br />
+                Inversiones que construyen futuro.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button 
                   size="lg"
-                  className="bg-gradient-to-r from-[hsl(var(--christmas-gold))] to-[hsl(var(--christmas-red))] text-white font-semibold shadow-[var(--shadow-festive)] hover:scale-105 transition-transform duration-300"
+                  variant="skandia"
                   onClick={() => navigate("/crear-regalo")}
                 >
                   <Gift className="mr-2 h-5 w-5" />
@@ -133,7 +128,7 @@ const Home = () => {
           </p>
           <Button 
             size="lg"
-            className="bg-white text-primary hover:bg-white/90 font-semibold shadow-2xl hover:scale-105 transition-transform duration-300"
+            className="bg-white text-primary hover:bg-white/90 font-semibold shadow-2xl"
             onClick={() => navigate("/crear-regalo")}
           >
             <Gift className="mr-2 h-5 w-5" />
