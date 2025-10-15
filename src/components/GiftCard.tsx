@@ -17,17 +17,17 @@ const templates = {
   1: {
     bg: "bg-gradient-to-br from-[hsl(182,55%,45%)] to-[hsl(182,75%,22%)]",
     image: template1,
-    name: "Winter Teal"
+    name: "Montañas Serenas"
   },
   2: {
     bg: "bg-gradient-to-br from-[hsl(152,65%,35%)] to-[hsl(152,75%,25%)]",
     image: template2,
-    name: "Forest Green"
+    name: "Luces Doradas"
   },
   3: {
     bg: "bg-gradient-to-br from-[hsl(182,65%,32%)] to-[hsl(182,75%,22%)]",
     image: template3,
-    name: "Winter Landscape"
+    name: "Olas Elegantes"
   }
 };
 

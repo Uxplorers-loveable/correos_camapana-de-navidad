@@ -8,7 +8,8 @@ import GiftCard from "@/components/GiftCard";
 import Snowfall from "@/components/Snowfall";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Share2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const CreateGift = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const CreateGift = () => {
   const [formData, setFormData] = useState({
     email: "",
     phone: "",
+    dataConsent: false,
     template: 1 as 1 | 2 | 3,
     amount: "",
     occasion: "",
@@ -57,8 +59,8 @@ const CreateGift = () => {
   const validateCurrentStep = () => {
     switch (currentStep) {
       case 0:
-        if (!formData.email || !formData.phone) {
-          toast.error("Por favor completa todos los campos");
+        if (!formData.email || !formData.phone || !formData.dataConsent) {
+          toast.error("Por favor completa todos los campos y acepta el tratamiento de datos");
           return false;
         }
         break;
@@ -85,10 +87,7 @@ const CreateGift = () => {
   };
 
   const handleSubmit = () => {
-    toast.success("¡Tu Smart Gift está listo!", {
-      description: "El mejor CEO del mundo y tú acaban de cambiar la historia de los regalos.",
-    });
-    setTimeout(() => navigate("/"), 2000);
+    setCurrentStep(7); // Go to final success screen
   };
 
   // Info screen before starting
@@ -153,7 +152,83 @@ const CreateGift = () => {
     );
   }
 
-  // Confirmation screen with snowfall
+  // Final success screen with snowfall
+  if (currentStep === 7) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
+        <Snowfall />
+        
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="text-center mb-8 animate-fade-in">
+            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+              <Check className="h-10 w-10 text-primary" />
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">
+              ¡Tu Smart Gift está en camino!
+            </h1>
+          </div>
+
+          <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 md:p-12 mb-8 space-y-6 animate-fade-in">
+            <div className="space-y-4 text-lg">
+              <p className="flex items-start gap-3">
+                <span className="text-2xl">📧</span>
+                <span>El destinatario recibirá tu regalo en la fecha y hora que seleccionaste.</span>
+              </p>
+              <p className="flex items-start gap-3">
+                <span className="text-2xl">⏰</span>
+                <span>Tendrá 30 días para activarlo y elegir su inversión.</span>
+              </p>
+              <p className="flex items-start gap-3">
+                <span className="text-2xl">🔔</span>
+                <span>Cuando lo active, recibirás una notificación para completar el pago.</span>
+              </p>
+              <p className="flex items-start gap-3">
+                <span className="text-2xl">📊</span>
+                <span>Ambos podrán hacer seguimiento a su progreso desde Skandia.</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              size="lg"
+              variant="skandia"
+              onClick={() => navigate("/")}
+            >
+              <Share2 className="mr-2 h-5 w-5" />
+              Compartir esta experiencia
+            </Button>
+            <Button 
+              size="lg"
+              variant="outline"
+              onClick={() => {
+                setCurrentStep(-1);
+                setFormData({
+                  email: "",
+                  phone: "",
+                  dataConsent: false,
+                  template: 1 as 1 | 2 | 3,
+                  amount: "",
+                  occasion: "",
+                  message: "",
+                  from: "",
+                  to: "",
+                  deliveryMethod: "",
+                  deliveryContact: "",
+                  deliveryDate: "",
+                  deliveryTime: "",
+                });
+              }}
+            >
+              Crear otro Smart Gift
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Confirmation screen
   if (currentStep === 6) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
@@ -242,7 +317,7 @@ const CreateGift = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
+    <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4 max-w-6xl">
         <Button
           variant="ghost"
@@ -250,14 +325,8 @@ const CreateGift = () => {
           className="mb-6"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {currentStep === 0 ? "Volver a información" : "Anterior"}
+          {currentStep === 0 ? "Volver" : "Anterior"}
         </Button>
-
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            Crea tu Smart Gift
-          </h1>
-        </div>
 
         <div className="grid md:grid-cols-2 gap-8 items-start">
           {/* Form Section */}
@@ -290,6 +359,16 @@ const CreateGift = () => {
                       value={formData.phone}
                       onChange={(e) => updateFormData("phone", e.target.value)}
                     />
+                  </div>
+                  <div className="flex items-start gap-3 pt-2">
+                    <Checkbox 
+                      id="dataConsent"
+                      checked={formData.dataConsent}
+                      onCheckedChange={(checked) => updateFormData("dataConsent", checked)}
+                    />
+                    <label htmlFor="dataConsent" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
+                      Autorizo el uso de mis datos para la creación y envío de mi Smart Gift conforme a la política de privacidad.
+                    </label>
                   </div>
                 </div>
               </div>
@@ -403,9 +482,9 @@ const CreateGift = () => {
             {currentStep === 4 && (
               <div className="space-y-6 animate-fade-in">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Método de entrega</h2>
+                  <h2 className="text-2xl font-bold mb-2">¿A dónde quieres que le llegue tu regalo?</h2>
                   <p className="text-muted-foreground">
-                    ¿Cómo enviamos tu Smart Gift?
+                    Elige cómo enviar tu Smart Gift
                   </p>
                 </div>
                 <div className="space-y-4">
