@@ -6,7 +6,7 @@ import GiftCard from "@/components/GiftCard";
 import Snowfall from "@/components/Snowfall";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ArrowLeft, TrendingUp, Shield, PiggyBank, Sparkles } from "lucide-react";
+import { ArrowLeft, TrendingUp, Shield, PiggyBank, Sparkles, Gift } from "lucide-react";
 
 const investmentOptions = [
   {
@@ -41,7 +41,7 @@ const investmentOptions = [
 
 const ActivateGift = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<"narrative" | "activation" | "intro" | "options" | "form" | "success">("narrative");
+  const [step, setStep] = useState<"narrative" | "codeEntry" | "personalData" | "intro" | "options" | "form" | "success">("narrative");
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [activationData, setActivationData] = useState({
     code: "",
@@ -65,8 +65,16 @@ const ActivateGift = () => {
     to: "Ti",
   };
 
-  const handleActivationSubmit = () => {
-    if (!activationData.code || !activationData.name || !activationData.email || !activationData.phone || !activationData.dataConsent) {
+  const handleCodeSubmit = () => {
+    if (!activationData.code) {
+      toast.error("Por favor ingresa tu código de activación");
+      return;
+    }
+    setStep("personalData");
+  };
+
+  const handlePersonalDataSubmit = () => {
+    if (!activationData.name || !activationData.email || !activationData.phone || !activationData.dataConsent) {
       toast.error("Por favor completa todos los campos y acepta el tratamiento de datos");
       return;
     }
@@ -116,7 +124,7 @@ const ActivateGift = () => {
             <Button 
               size="lg"
               variant="skandia"
-              onClick={() => setStep("activation")}
+              onClick={() => setStep("codeEntry")}
               className="animate-fade-in"
               style={{ animationDelay: '1.2s' }}
             >
@@ -212,10 +220,10 @@ const ActivateGift = () => {
     );
   }
 
-  // Activation code and data entry screen
-  if (step === "activation") {
+  // Activation code entry screen
+  if (step === "codeEntry") {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
+      <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8 flex items-center">
         <div className="container mx-auto px-4 max-w-2xl">
           <Button
             variant="ghost"
@@ -226,35 +234,87 @@ const ActivateGift = () => {
             Volver
           </Button>
 
-          <div className="space-y-8 animate-fade-in">
-            <div className="text-center">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">
-                Activa tu Smart Gift
+          <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 md:p-12 space-y-6 animate-fade-in">
+            <div className="text-center space-y-4">
+              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                <Gift className="h-12 w-12 text-primary" />
+              </div>
+              
+              <h1 className="text-3xl md:text-4xl font-bold text-primary">
+                ¡Tienes un regalo esperándote!
               </h1>
-              <p className="text-xl text-muted-foreground">
-                Ingresa tu código de activación y completa tus datos
+              
+              <p className="text-lg text-muted-foreground">
+                Ingresa tu código de activación para descubrir tu regalo de inversión
               </p>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-              <p className="text-sm font-medium">
-                ¿Primera vez invirtiendo? <br/>
-                <span className="text-muted-foreground">No te preocupes, te guiaremos paso a paso y tendrás acceso a contenido educativo personalizado.</span>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="code" className="text-base font-semibold">Código de activación</Label>
+                <Input
+                  id="code"
+                  placeholder="Ingresa tu código aquí"
+                  value={activationData.code}
+                  onChange={(e) => setActivationData(prev => ({ ...prev, code: e.target.value }))}
+                  className="text-lg tracking-wider text-center"
+                />
+                <p className="text-sm text-muted-foreground mt-2 text-center">
+                  Deberías haber recibido este código por email, WhatsApp o un enlace directo
+                </p>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <div className="flex items-start gap-2">
+                  <Sparkles className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm">
+                    <span className="font-semibold text-blue-900">¿Primera vez invirtiendo?</span>{" "}
+                    <span className="text-blue-800">No te preocupes, te guiaremos paso a paso y tendrás acceso a contenido educativo personalizado.</span>
+                  </p>
+                </div>
+              </div>
+
+              <Button 
+                size="lg"
+                variant="skandia"
+                className="w-full"
+                onClick={handleCodeSubmit}
+              >
+                <Gift className="mr-2 h-5 w-5" />
+                Activar mi Regalo
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Personal data entry screen
+  if (step === "personalData") {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <Button
+            variant="ghost"
+            onClick={() => setStep("codeEntry")}
+            className="mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Volver
+          </Button>
+
+          <div className="space-y-8 animate-fade-in">
+            <div className="text-center">
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                Completa tus datos
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                Para continuar, necesitamos algunos datos básicos
               </p>
             </div>
 
             <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 space-y-6">
-              <div>
-                <Label htmlFor="code">Código de activación *</Label>
-                <Input
-                  id="code"
-                  placeholder="Ingresa tu código"
-                  value={activationData.code}
-                  onChange={(e) => setActivationData(prev => ({ ...prev, code: e.target.value }))}
-                  className="text-lg tracking-wider"
-                />
-              </div>
-
               <div>
                 <Label htmlFor="name">Nombre completo *</Label>
                 <Input
@@ -304,7 +364,7 @@ const ActivateGift = () => {
                 size="lg"
                 variant="skandia"
                 className="w-full"
-                onClick={handleActivationSubmit}
+                onClick={handlePersonalDataSubmit}
               >
                 Continuar
               </Button>
@@ -321,7 +381,7 @@ const ActivateGift = () => {
         <Button
           variant="ghost"
           onClick={() => {
-            if (step === "intro") setStep("activation");
+            if (step === "intro") setStep("personalData");
             else if (step === "options") setStep("intro");
             else if (step === "form") setStep("options");
             else navigate("/");
