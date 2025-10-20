@@ -73,26 +73,26 @@ const SmartGiftStepper = ({ currentStep }: SmartGiftStepperProps) => {
                 {/* Step Circle */}
                 <div
                   className={cn(
-                    "w-16 h-16 rounded-2xl flex items-center justify-center font-bold text-xl transition-all duration-500 shadow-lg z-10 relative",
-                    isCompleted && "bg-primary text-white scale-110",
-                    isActive && "bg-primary text-white scale-125 shadow-[0_0_20px_rgba(0,177,169,0.5)]",
+                    "w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg transition-all duration-500 shadow-md z-10 relative",
+                    isCompleted && "bg-primary text-white",
+                    isActive && "bg-primary text-white shadow-[0_0_15px_rgba(0,177,169,0.4)]",
                     isFuture && "bg-muted text-muted-foreground"
                   )}
                 >
                   {isCompleted ? (
-                    <Check className="h-8 w-8 stroke-[3]" />
+                    <Check className="h-6 w-6 stroke-[3]" />
                   ) : (
-                    <span className="text-2xl">{step.number}</span>
+                    <span className="text-lg">{step.number}</span>
                   )}
                   
                   {/* Active Pulse Effect */}
                   {isActive && (
-                    <div className="absolute inset-0 rounded-2xl bg-primary animate-ping opacity-20" />
+                    <div className="absolute inset-0 rounded-xl bg-primary animate-ping opacity-20" />
                   )}
                 </div>
 
                 {/* Step Content */}
-                <div className="mt-6 space-y-2">
+                <div className="mt-4 space-y-2">
                   <h4
                     className={cn(
                       "font-bold text-base md:text-lg transition-colors duration-300",
@@ -114,19 +114,6 @@ const SmartGiftStepper = ({ currentStep }: SmartGiftStepperProps) => {
                     {step.description}
                   </p>
                 </div>
-
-                {/* Completion Badge */}
-                {isCompleted && (
-                  <div className="mt-2 text-xs font-semibold text-primary px-3 py-1 bg-primary/10 rounded-full">
-                    ✓ Completado
-                  </div>
-                )}
-                
-                {isActive && (
-                  <div className="mt-2 text-xs font-semibold text-primary px-3 py-1 bg-primary/10 rounded-full animate-pulse">
-                    En progreso
-                  </div>
-                )}
               </div>
             );
           })}
