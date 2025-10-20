@@ -70,7 +70,7 @@ const SmartGiftStepper = ({ currentStep, showTitle = false }: SmartGiftStepperPr
                 {/* Step Circle */}
                 <div
                   className={cn(
-                    "w-12 h-12 rounded-0 flex items-center justify-center font-bold text-lg transition-all duration-500 shadow-md z-10 relative",
+                    "w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-500 shadow-md z-10 relative",
                     isCompleted && "bg-primary text-white",
                     isActive && "bg-primary text-white shadow-[0_0_15px_rgba(0,177,169,0.4)]",
                     isFuture && "bg-muted text-muted-foreground",
