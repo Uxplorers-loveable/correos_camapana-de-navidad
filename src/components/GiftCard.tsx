@@ -15,19 +15,19 @@ import template3 from "@/assets/gift-card-template-3.jpg";
 
 const templates = {
   1: {
-    bg: "bg-gradient-to-br from-[hsl(200,70%,50%)] to-[hsl(200,80%,30%)]",
+    bg: "bg-gradient-to-br from-[hsl(0,70%,50%)] to-[hsl(0,80%,35%)]",
     image: template1,
-    name: "Ramas Navideñas"
+    name: "Regalos Rojos"
   },
   2: {
-    bg: "bg-gradient-to-br from-[hsl(0,70%,50%)] to-[hsl(0,80%,30%)]",
+    bg: "bg-gradient-to-br from-[hsl(0,0%,20%)] to-[hsl(0,0%,10%)]",
     image: template2,
-    name: "Rojo Navideño"
+    name: "Marco Navideño"
   },
   3: {
-    bg: "bg-gradient-to-br from-[hsl(30,60%,60%)] to-[hsl(30,70%,40%)]",
+    bg: "bg-gradient-to-br from-[hsl(180,30%,65%)] to-[hsl(180,25%,50%)]",
     image: template3,
-    name: "Regalos Dorados"
+    name: "Estrellas Doradas"
   }
 };
 
