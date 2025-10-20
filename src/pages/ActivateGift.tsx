@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import GiftCard from "@/components/GiftCard";
 import Snowfall from "@/components/Snowfall";
+import SmartGiftStepper from "@/components/SmartGiftStepper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { ArrowLeft, TrendingUp, Shield, PiggyBank, Sparkles, Gift } from "lucide-react";
@@ -166,44 +167,9 @@ const ActivateGift = () => {
               </p>
             </div>
 
-            {/* What's Next Section */}
+            {/* Stepper showing progress */}
             <div className="bg-card rounded-3xl shadow-2xl p-8 md:p-12 border border-primary/10">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2">¿Qué sigue ahora?</h3>
-                <p className="text-muted-foreground">Preparamos todo para que tu experiencia sea perfecta</p>
-              </div>
-              
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="group">
-                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 text-center h-full border-2 border-transparent group-hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
-                    <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                      <span className="text-4xl">📧</span>
-                    </div>
-                    <h4 className="font-bold text-lg mb-3">Recibirás un correo de confirmación con los detalles</h4>
-                    <p className="text-sm text-muted-foreground">Revisa tu bandeja de entrada con todos los detalles de tu cita</p>
-                  </div>
-                </div>
-
-                <div className="group">
-                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 text-center h-full border-2 border-transparent group-hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
-                    <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                      <span className="text-4xl">📞</span>
-                    </div>
-                    <h4 className="font-bold text-lg mb-3">Tu asesor te contactará en la fecha y hora seleccionada</h4>
-                    <p className="text-sm text-muted-foreground">Un experto certificado te guiará personalmente</p>
-                  </div>
-                </div>
-
-                <div className="group">
-                  <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 text-center h-full border-2 border-transparent group-hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
-                    <div className="w-16 h-16 rounded-full bg-white shadow-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                      <span className="text-4xl">🎯</span>
-                    </div>
-                    <h4 className="font-bold text-lg mb-3">Prepárate para dar el primer paso hacia tu libertad financiera</h4>
-                    <p className="text-sm text-muted-foreground">Comienza tu camino hacia un futuro próspero</p>
-                  </div>
-                </div>
-              </div>
+              <SmartGiftStepper currentStep={2} />
             </div>
 
             {/* Learning Center */}
@@ -496,35 +462,7 @@ const ActivateGift = () => {
 
             {/* Stepper */}
             <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 mb-8">
-              <div className="flex items-center justify-between gap-4 max-w-4xl mx-auto">
-                <div className="flex flex-col items-center flex-1">
-                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                    <span className="text-xl font-bold text-primary">1</span>
-                  </div>
-                  <h3 className="font-semibold text-center mb-1">Selecciona tu producto</h3>
-                  <p className="text-xs text-muted-foreground text-center">Elige el fondo que mejor se ajuste a tu objetivo.</p>
-                </div>
-                
-                <div className="h-0.5 w-12 bg-muted -mt-8 hidden md:block"></div>
-                
-                <div className="flex flex-col items-center flex-1">
-                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-3">
-                    <span className="text-xl font-bold text-muted-foreground">2</span>
-                  </div>
-                  <h3 className="font-semibold text-muted-foreground text-center mb-1">Recibe asesoría y activa tu inversión</h3>
-                  <p className="text-xs text-muted-foreground text-center">Un experto te guiará para activar tu producto.</p>
-                </div>
-                
-                <div className="h-0.5 w-12 bg-muted -mt-8 hidden md:block"></div>
-                
-                <div className="flex flex-col items-center flex-1">
-                  <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-3">
-                    <span className="text-xl font-bold text-muted-foreground">3</span>
-                  </div>
-                  <h3 className="font-semibold text-muted-foreground text-center mb-1">Tu regalo se completa</h3>
-                  <p className="text-xs text-muted-foreground text-center">Quien te lo obsequió recibirá las instrucciones de pago.</p>
-                </div>
-              </div>
+              <SmartGiftStepper currentStep={0} />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -575,6 +513,11 @@ const ActivateGift = () => {
 
         {step === "form" && selectedOption !== null && (
           <div className="space-y-8 animate-fade-in">
+            {/* Stepper */}
+            <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 mb-8">
+              <SmartGiftStepper currentStep={1} />
+            </div>
+
             <div className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 {selectedOption === 0 ? "Inicia tu primera inversión con un experto" :
