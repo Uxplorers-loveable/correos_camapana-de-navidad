@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import CreateSmartGiftHome from "./pages/CreateSmartGiftHome";
+import ActivateGiftHome from "./pages/ActivateGiftHome";
 import CreateGift from "./pages/CreateGift";
 import ActivateGift from "./pages/ActivateGift";
 import NotFound from "./pages/NotFound";
@@ -18,6 +20,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/inicio-crear" element={<CreateSmartGiftHome />} />
+          <Route path="/inicio-activar" element={<ActivateGiftHome />} />
           <Route path="/crear-regalo" element={<CreateGift />} />
           <Route path="/activar" element={<ActivateGift />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
