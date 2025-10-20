@@ -9,7 +9,6 @@ const ActivateGiftHome = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-accent/5">
         {/* Decorative dots */}
@@ -28,36 +27,29 @@ const ActivateGiftHome = () => {
             {/* Left side - Text content */}
             <div className="space-y-8 animate-fade-in z-10">
               <div className="inline-block">
-                <p className="text-destructive font-semibold text-lg md:text-xl mb-4">
-                  Smart Gifts de Skandia
-                </p>
+                <p className="text-destructive font-semibold text-lg md:text-xl mb-4">Smart Gifts by Skandia</p>
               </div>
-              
+
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
                 Un regalo que{" "}
                 <span className="relative inline-block">
                   <span className="text-primary relative z-10">crece</span>
-                  <img 
-                    src={santaHat} 
-                    alt="" 
-                    className="absolute -top-6 -left-4 md:-top-10 md:-left-6 w-10 h-10 md:w-14 md:h-14 -rotate-12 opacity-90"
-                    style={{ mixBlendMode: 'multiply' }}
+                  <img
+                    src={santaHat}
+                    alt=""
+                    className="absolute -top-6 -left-0 md:-top-10 md:-left-6 w-10 h-10 md:w-14 md:h-14 -rotate-12 opacity-90"
+                    style={{ mixBlendMode: "multiply" }}
                   />
-                </span>
-                {" "}con el tiempo.
+                </span>{" "}
+                con el tiempo.
               </h1>
-              
+
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl">
                 Papá Noel y Skandia presentan los Smart Gifts: una nueva forma de regalar oportunidades.
               </p>
-                
+
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button 
-                  size="lg"
-                  variant="outline"
-                  className="text-base border-2"
-                  onClick={() => navigate("/activar")}
-                >
+                <Button size="lg" variant="outline" className="text-base border-2" onClick={() => navigate("/activar")}>
                   Activar mi regalo
                 </Button>
               </div>
@@ -68,12 +60,12 @@ const ActivateGiftHome = () => {
               <div className="relative">
                 {/* Decorative circle background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-pink-200/60 to-pink-300/40 rounded-full transform scale-105 blur-2xl"></div>
-                
+
                 {/* Main image */}
                 <div className="relative rounded-full overflow-hidden aspect-square border-8 border-background shadow-2xl">
-                  <img 
-                    src={heroImage} 
-                    alt="Pareja feliz con Smart Gift de Skandia" 
+                  <img
+                    src={heroImage}
+                    alt="Pareja feliz con Smart Gift de Skandia"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -109,7 +101,8 @@ const ActivateGiftHome = () => {
                 <div className="space-y-3 flex-1">
                   <h3 className="text-2xl md:text-3xl font-bold">Regala con propósito</h3>
                   <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                    Cada Smart Gift es una inversión que crece con el tiempo. Elige el diseño, el monto y añade un mensaje personalizado.
+                    Cada Smart Gift es una inversión que crece con el tiempo. Elige el diseño, el monto y añade un
+                    mensaje personalizado.
                   </p>
                 </div>
               </div>
@@ -124,7 +117,8 @@ const ActivateGiftHome = () => {
                 <div className="space-y-3 flex-1">
                   <h3 className="text-2xl md:text-3xl font-bold">Construye futuro</h3>
                   <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                    Tu regalo se convierte en el primer paso hacia la libertad financiera. Un asesor Skandia guiará cada decisión.
+                    Tu regalo se convierte en el primer paso hacia la libertad financiera. Un asesor Skandia guiará cada
+                    decisión.
                   </p>
                 </div>
               </div>
