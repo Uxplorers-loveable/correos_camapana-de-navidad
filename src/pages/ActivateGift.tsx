@@ -478,17 +478,9 @@ const ActivateGift = () => {
                       <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
                         <Icon className="h-7 w-7 text-primary" />
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        option.risk === "Muy Bajo" ? "bg-green-100 text-green-700" :
-                        option.risk === "Bajo" ? "bg-blue-100 text-blue-700" :
-                        "bg-yellow-100 text-yellow-700"
-                      }`}>
-                        Riesgo {option.risk}
-                      </span>
                     </div>
                     <h3 className="text-xl font-bold mb-2">{option.title}</h3>
-                    <p className="text-muted-foreground mb-3">{option.description}</p>
-                    <p className="text-sm font-semibold text-primary">{option.returns}</p>
+                    <p className="text-muted-foreground">{option.description}</p>
                   </button>
                 );
               })}
