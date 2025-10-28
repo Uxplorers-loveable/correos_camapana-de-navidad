@@ -125,7 +125,7 @@ const CreateGift = () => {
           <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 md:p-12 mb-8 animate-fade-in">
             <div className="space-y-8">
               {[
-                { num: "1", title: "Crea tu gift card personalizada", desc: "Elige el diseño, monto y mensaje perfecto" },
+                { num: "1", title: "Crea tu Smart Gift personalizado", desc: "Elige el diseño, monto y mensaje perfecto" },
                 { num: "2", title: "La persona que la reciba podrá activarla en 30 días", desc: "Tu destinatario tendrá tiempo para activar su regalo" },
                 { num: "3", title: "Skandia la guiará para seleccionar su producto de inversión", desc: "Un asesor especializado le ayudará a elegir la mejor opción" },
                 { num: "4", title: "Te notificaremos para que realices el pago", desc: "Cuando el destinatario active su inversión, recibirás las instrucciones para hacer el pago." }
