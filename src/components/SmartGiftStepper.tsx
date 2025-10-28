@@ -11,7 +11,7 @@ const steps = [
     number: 1,
     emoji: "1️⃣",
     title: "Selecciona tu objetivo",
-    description: "Elige el que mejor se adapte a tu objetivo.",
+    description: "Elige por donde quieres empezar.",
   },
   {
     number: 2,
