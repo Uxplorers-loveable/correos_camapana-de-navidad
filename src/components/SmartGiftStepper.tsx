@@ -10,7 +10,7 @@ const steps = [
   {
     number: 1,
     emoji: "1️⃣",
-    title: "Selecciona tu producto",
+    title: "Selecciona tu objetivo",
     description: "Elige el que mejor se adapte a tu objetivo.",
   },
   {
