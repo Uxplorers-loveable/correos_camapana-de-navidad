@@ -109,7 +109,7 @@ const ActivateGift = () => {
                 Esta Navidad, el mejor CEO del mundo y Skandia crearon regalos que crecen contigo.
               </p>
               <p className="text-lg leading-relaxed">
-                un regalo: <span className="font-semibold text-primary">es el primer paso hacia tu libertad financiera.</span>
+                Esta Smart Gift es más que una tarjeta: <span className="font-semibold text-primary">es el primer paso hacia tu libertad financiera.</span>
               </p>
               <p className="text-lg leading-relaxed">
                 Aquí podrás activarla, descubrir qué puedes lograr con ella y recibir asesoría personalizada para hacerla crecer.
