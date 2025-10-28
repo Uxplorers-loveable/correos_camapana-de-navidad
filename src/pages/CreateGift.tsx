@@ -24,14 +24,25 @@ const CreateGift = () => {
     message: "",
     from: "",
     to: "",
-    deliveryMethod: "",
-    deliveryContact: "",
-    deliveryDate: "",
-    deliveryTime: "",
   });
+  const [shareableLink, setShareableLink] = useState("");
 
   const updateFormData = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+      // Auto-select template based on occasion
+      if (field === "occasion") {
+        const templateMap: Record<string, 1 | 2 | 3> = {
+          navidad: 1,
+          cumpleanos: 2,
+          grado: 3,
+          matrimonio: 2,
+          otro: 1,
+        };
+        updated.template = templateMap[value] || 1;
+      }
+      return updated;
+    });
   };
 
   const formatAmount = (value: string) => {
@@ -64,20 +75,14 @@ const CreateGift = () => {
           return false;
         }
         break;
-      case 2:
+      case 1:
         if (!formData.amount || !formData.occasion) {
           toast.error("Por favor completa todos los campos");
           return false;
         }
         break;
-      case 3:
+      case 2:
         if (!formData.from || !formData.to) {
-          toast.error("Por favor completa todos los campos");
-          return false;
-        }
-        break;
-      case 4:
-        if (!formData.deliveryMethod || !formData.deliveryContact) {
           toast.error("Por favor completa todos los campos");
           return false;
         }
@@ -87,7 +92,11 @@ const CreateGift = () => {
   };
 
   const handleSubmit = () => {
-    setCurrentStep(7); // Go to final success screen
+    // Generate shareable link (in a real app, this would be an API call)
+    const giftId = Math.random().toString(36).substring(2, 15);
+    const link = `${window.location.origin}/activar?gift=${giftId}`;
+    setShareableLink(link);
+    setCurrentStep(4); // Go to final success screen
   };
 
   // Info screen before starting
@@ -150,7 +159,7 @@ const CreateGift = () => {
   }
 
   // Final success screen
-  if (currentStep === 7) {
+  if (currentStep === 4) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -159,24 +168,51 @@ const CreateGift = () => {
               <Check className="h-10 w-10 text-primary" />
             </div>
             <h1 className="text-3xl md:text-5xl font-bold mb-4">
-              ¡Tu Smart Gift está en camino!
+              ¡Tu Smart Gift está listo!
             </h1>
+            <p className="text-lg text-muted-foreground">
+              Comparte el link cuando quieras y por donde quieras
+            </p>
           </div>
 
           <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 md:p-12 mb-8 space-y-6 animate-fade-in">
-            <div className="space-y-4 text-lg">
-              <p className="flex items-start gap-3">
-                <span className="text-2xl">📧</span>
-                <span><strong>{formData.to}</strong> recibirá tu regalo en la fecha y hora que seleccionaste.</span>
-              </p>
-              <p className="flex items-start gap-3">
-                <span className="text-2xl">⏰</span>
-                <span>Tendrá 30 días para activar su Smart Gift.</span>
-              </p>
-              <p className="flex items-start gap-3">
-                <span className="text-2xl">🔔</span>
-                <span>Luego de que <strong>{formData.to}</strong> reciba su asesoría y active su producto de inversión, recibirás una notificación para completar el pago.</span>
-              </p>
+            <div className="space-y-4">
+              <div>
+                <Label className="text-base font-semibold mb-2 block">
+                  Link para compartir:
+                </Label>
+                <div className="flex gap-2">
+                  <Input 
+                    value={shareableLink} 
+                    readOnly 
+                    className="font-mono text-sm"
+                  />
+                  <Button
+                    variant="skandia"
+                    onClick={() => {
+                      navigator.clipboard.writeText(shareableLink);
+                      toast.success("Link copiado al portapapeles");
+                    }}
+                  >
+                    Copiar
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="pt-4 space-y-3 text-base">
+                <p className="flex items-start gap-3">
+                  <span className="text-2xl">🎁</span>
+                  <span>Comparte este link con <strong>{formData.to}</strong> cuando quieras.</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-2xl">⏰</span>
+                  <span>Tendrá 30 días para activar su Smart Gift desde que reciba el link.</span>
+                </p>
+                <p className="flex items-start gap-3">
+                  <span className="text-2xl">🔔</span>
+                  <span>Cuando <strong>{formData.to}</strong> active su producto de inversión, recibirás una notificación para completar el pago.</span>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -184,16 +220,20 @@ const CreateGift = () => {
             <Button 
               size="lg"
               variant="skandia"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                const message = `🎁 ¡Hola! Te he enviado un Smart Gift de Skandia. Actívalo aquí: ${shareableLink}`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+              }}
             >
               <Share2 className="mr-2 h-5 w-5" />
-              Compartir esta experiencia
+              Compartir por WhatsApp
             </Button>
             <Button 
               size="lg"
               variant="outline"
               onClick={() => {
                 setCurrentStep(-1);
+                setShareableLink("");
                 setFormData({
                   name: "",
                   email: "",
@@ -205,10 +245,6 @@ const CreateGift = () => {
                   message: "",
                   from: "",
                   to: "",
-                  deliveryMethod: "",
-                  deliveryContact: "",
-                  deliveryDate: "",
-                  deliveryTime: "",
                 });
               }}
             >
@@ -221,7 +257,7 @@ const CreateGift = () => {
   }
 
   // Confirmation screen
-  if (currentStep === 6) {
+  if (currentStep === 3) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-background to-[hsl(182,25%,96%)] py-8">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -230,7 +266,7 @@ const CreateGift = () => {
               Confirma tu regalo
             </h1>
             <p className="text-muted-foreground">
-              Revisa los detalles antes de enviar
+              Revisa los detalles antes de crear tu Smart Gift
             </p>
           </div>
 
@@ -252,24 +288,12 @@ const CreateGift = () => {
                 <span className="text-muted-foreground">Ocasión:</span>
                 <span className="font-medium capitalize">{formData.occasion}</span>
               </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-muted-foreground">Entrega:</span>
-                <span className="font-medium capitalize">{formData.deliveryMethod}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-muted-foreground">Contacto:</span>
-                <span className="font-medium">{formData.deliveryContact}</span>
-              </div>
-              {formData.deliveryDate && (
-                <div className="flex justify-between py-2 border-b">
-                  <span className="text-muted-foreground">Fecha:</span>
-                  <span className="font-medium">{formData.deliveryDate} {formData.deliveryTime}</span>
+              {formData.message && (
+                <div className="py-2">
+                  <span className="text-muted-foreground block mb-1">Mensaje:</span>
+                  <p className="text-foreground italic">"{formData.message}"</p>
                 </div>
               )}
-              <div className="py-2">
-                <span className="text-muted-foreground block mb-1">Mensaje:</span>
-                <p className="text-foreground italic">"{formData.message}"</p>
-              </div>
 
               <div className="flex gap-4 pt-6">
                 <Button variant="outline" onClick={prevStep} className="flex-1">
@@ -282,7 +306,7 @@ const CreateGift = () => {
                   className="flex-1"
                 >
                   <Check className="mr-2 h-4 w-4" />
-                  Confirmar y enviar
+                  Crear Smart Gift
                 </Button>
               </div>
             </div>
@@ -377,32 +401,6 @@ const CreateGift = () => {
             {currentStep === 1 && (
               <div className="space-y-6 animate-fade-in">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Elige el diseño</h2>
-                  <p className="text-muted-foreground">
-                    Selecciona tu diseño favorito
-                  </p>
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  {[1, 2, 3].map((template) => (
-                    <button
-                      key={template}
-                      onClick={() => updateFormData("template", template)}
-                      className={`relative aspect-square rounded-xl overflow-hidden border-4 transition-all ${
-                        formData.template === template
-                          ? "border-primary shadow-lg scale-105"
-                          : "border-transparent opacity-60 hover:opacity-100"
-                      }`}
-                    >
-                      <GiftCard template={template as 1 | 2 | 3} />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {currentStep === 2 && (
-              <div className="space-y-6 animate-fade-in">
-                <div>
                   <h2 className="text-2xl font-bold mb-2">Monto y ocasión</h2>
                   <p className="text-muted-foreground">
                     Define el valor de tu Smart Gift
@@ -448,7 +446,7 @@ const CreateGift = () => {
               </div>
             )}
 
-            {currentStep === 3 && (
+            {currentStep === 2 && (
               <div className="space-y-6 animate-fade-in">
                 <div>
                   <h2 className="text-2xl font-bold mb-2">Nombres</h2>
@@ -474,96 +472,6 @@ const CreateGift = () => {
                       value={formData.to}
                       onChange={(e) => updateFormData("to", e.target.value)}
                     />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {currentStep === 4 && (
-              <div className="space-y-6 animate-fade-in">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">¿A dónde quieres que le llegue tu regalo?</h2>
-                  <p className="text-muted-foreground">
-                    Elige cómo enviar tu Smart Gift
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="deliveryMethod">Método</Label>
-                    <Select 
-                      value={formData.deliveryMethod} 
-                      onValueChange={(value) => {
-                        updateFormData("deliveryMethod", value);
-                        updateFormData("deliveryContact", "");
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un método" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="email">📧 Correo electrónico</SelectItem>
-                        <SelectItem value="whatsapp">💬 WhatsApp</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  {formData.deliveryMethod === "email" && (
-                    <div>
-                      <Label htmlFor="deliveryContact">Correo electrónico del destinatario</Label>
-                      <Input
-                        id="deliveryContact"
-                        type="email"
-                        placeholder="destinatario@email.com"
-                        value={formData.deliveryContact}
-                        onChange={(e) => updateFormData("deliveryContact", e.target.value)}
-                      />
-                    </div>
-                  )}
-                  
-                  {formData.deliveryMethod === "whatsapp" && (
-                    <div>
-                      <Label htmlFor="deliveryContact">Número de WhatsApp</Label>
-                      <Input
-                        id="deliveryContact"
-                        type="tel"
-                        placeholder="+57 300 123 4567"
-                        value={formData.deliveryContact}
-                        onChange={(e) => updateFormData("deliveryContact", e.target.value)}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {currentStep === 5 && (
-              <div className="space-y-6 animate-fade-in">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">Fecha de envío</h2>
-                  <p className="text-muted-foreground">
-                    ¿Cuándo enviamos tu Smart Gift?
-                  </p>
-                </div>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="deliveryDate">Fecha</Label>
-                      <Input
-                        id="deliveryDate"
-                        type="date"
-                        value={formData.deliveryDate}
-                        onChange={(e) => updateFormData("deliveryDate", e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="deliveryTime">Hora</Label>
-                      <Input
-                        id="deliveryTime"
-                        type="time"
-                        value={formData.deliveryTime}
-                        onChange={(e) => updateFormData("deliveryTime", e.target.value)}
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
