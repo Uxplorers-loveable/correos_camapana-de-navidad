@@ -186,7 +186,7 @@ const ActivateGift = () => {
 
               <div className="p-8 md:p-10">
                 <div className="grid md:grid-cols-3 gap-4 mb-6">
-                  <a href="#" className="group bg-white rounded-xl p-6 border-2 border-transparent hover:border-primary transition-all duration-300 shadow-md hover:shadow-xl">
+                  <a href="https://channel.skandia.com.co/path-player?courseid=mesa-redonda&unit=68d5ae516f0360a20408338cUnit" target="_blank" rel="noopener noreferrer" className="group bg-white rounded-xl p-6 border-2 border-transparent hover:border-primary transition-all duration-300 shadow-md hover:shadow-xl">
                     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                       <span className="text-3xl">📊</span>
                     </div>
