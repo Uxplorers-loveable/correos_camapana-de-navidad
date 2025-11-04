@@ -147,7 +147,7 @@ const CreateGift = () => {
                 { num: "1", title: "Crea tu Smart Gift personalizado", desc: "Elige el diseño, monto y mensaje perfecto" },
                 { num: "2", title: "La persona que la reciba podrá activarla en 30 días", desc: "Tu destinatario tendrá tiempo para activar su regalo" },
                 { num: "3", title: "Skandia la guiará para seleccionar su producto de inversión", desc: "Un asesor especializado le ayudará a elegir la mejor opción" },
-                { num: "4", title: "Abre su producto de inversión", desc: "Cuando el destinatario complete la activación, su inversión comenzará a crecer." }
+                { num: "4", title: "Te notificaremos para que realices el pago", desc: "Cuando el destinatario active su inversión, recibirás las instrucciones para hacer el pago." }
               ].map((step, index) => (
                 <div key={index} className="flex gap-4 items-start">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
