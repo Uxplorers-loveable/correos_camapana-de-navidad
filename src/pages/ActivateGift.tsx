@@ -404,7 +404,7 @@ const ActivateGift = () => {
                 
                 <div className="max-w-2xl mx-auto">
                   <p className="text-lg text-muted-foreground md:text-xl leading-relaxed">
-                    El FIC Skandia Efectivo es un fondo de inversión colectiva administrado por Skandia Fiduciaria S.A., diseñado para que tu dinero crezca con seguridad y siempre esté disponible.
+                    El FIC Efectivo es un fondo que busca conservar el valor de tu dinero y ofrecerte acceso rápido a él. Invierte en instrumentos de bajo riesgo y corto plazo, y está administrado por expertos de Skandia Fiduciaria S.A
                   </p>
                 </div>
               </div>
