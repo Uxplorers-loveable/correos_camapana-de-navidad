@@ -360,10 +360,10 @@ const ActivateGift = () => {
                 
                 
                 <div className="max-w-2xl mx-auto space-y-3">
-                  <p className="text-2xl md:text-3xl font-semibold text-primary">
+                  <p className="text-2xl font-semibold text-primary md:text-4xl">
                     Tu Smart Gift se convierte en tu fondo de emergencias
                   </p>
-                  <p className="text-lg md:text-xl text-muted-foreground">
+                  <p className="text-lg text-black md:text-xl">
                     Al vincularte, comienzas a construir tu fondo de emergencias, un lugar donde tu dinero crece sin riesgos y te brinda tranquilidad cuando más lo necesitas.
                   </p>
                 </div>
@@ -373,26 +373,12 @@ const ActivateGift = () => {
             {/* Historia del producto - Card destacada */}
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-3xl blur-xl"></div>
-              <div className="relative bg-card rounded-3xl shadow-xl border border-primary/20 p-8 md:p-12">
-                <div className="space-y-6 text-center max-w-3xl mx-auto">
-                  
-                  <p className="text-lg md:text-xl leading-relaxed">
-                    Al vincularte, comienzas a construir tu <span className="font-semibold text-primary">fondo de emergencias</span>, un lugar donde tu dinero crece sin riesgos y te brinda tranquilidad cuando más lo necesitas.
-                  </p>
-                  <div className="pt-4">
-                    <p className="text-xl md:text-2xl font-bold text-primary">
-                      🌟 Tu regalo no se guarda, se invierte en tu bienestar financiero
-                    </p>
-                  </div>
-                </div>
-              </div>
+              
             </div>
 
             {/* Beneficios principales */}
             <div className="space-y-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-center">
-                💡 Lo que hace especial tu Smart Gift
-              </h3>
+              <h3 className="text-2xl font-bold text-center md:text-2xl">💡 Lo que hace especial tu fondo</h3>
               
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Beneficio 1 */}
