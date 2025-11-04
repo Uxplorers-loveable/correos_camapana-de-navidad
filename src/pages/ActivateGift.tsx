@@ -86,8 +86,7 @@ const ActivateGift = () => {
 
   // Mobile redirect screen
   if (step === "mobileRedirect") {
-    return (
-      <div className="min-h-screen bg-gradient-subtle py-16 flex items-center">
+    return <div className="min-h-screen bg-gradient-subtle py-16 flex items-center">
         <div className="container mx-auto px-4 max-w-3xl">
           <div className="bg-card rounded-3xl shadow-[var(--shadow-elevated)] p-10 md:p-16 space-y-10 animate-fade-in text-center">
             {/* Icon */}
@@ -100,27 +99,17 @@ const ActivateGift = () => {
 
             {/* Message */}
             <div className="space-y-6">
-              <p className="text-2xl md:text-3xl leading-relaxed">
-                💌 Te enviamos un enlace para continuar tu proceso de vinculación.
-              </p>
+              <p className="text-2xl md:text-3xl leading-relaxed">💌 Te enviamos un enlace a tu whatsapp para iniciar tu vinculación.</p>
               <p className="text-2xl md:text-3xl leading-relaxed font-semibold text-primary">
                 ¡Es momento de hacer realidad tu regalo! 🎁
               </p>
             </div>
 
             {/* Optional: Button to go back home */}
-            <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={() => navigate("/")}
-              className="mt-4"
-            >
-              Volver al inicio
-            </Button>
+            
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
 
   // Success screen
@@ -505,30 +494,20 @@ const ActivateGift = () => {
               {/* T&C Checkboxes */}
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <Checkbox 
-                    id="termsAccepted" 
-                    checked={activationData.termsAccepted}
-                    onCheckedChange={(checked) => setActivationData(prev => ({
-                      ...prev,
-                      termsAccepted: checked as boolean
-                    }))}
-                    className="mt-1 flex-shrink-0"
-                  />
+                  <Checkbox id="termsAccepted" checked={activationData.termsAccepted} onCheckedChange={checked => setActivationData(prev => ({
+                ...prev,
+                termsAccepted: checked as boolean
+              }))} className="mt-1 flex-shrink-0" />
                   <Label htmlFor="termsAccepted" className="font-normal text-base cursor-pointer leading-relaxed">
                     Acepto y reconozco que he leído los Términos y Condiciones de la vinculación al FIC Efectivo.
                   </Label>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <Checkbox 
-                    id="ficInfoAccepted" 
-                    checked={activationData.ficInfoAccepted}
-                    onCheckedChange={(checked) => setActivationData(prev => ({
-                      ...prev,
-                      ficInfoAccepted: checked as boolean
-                    }))}
-                    className="mt-1 flex-shrink-0"
-                  />
+                  <Checkbox id="ficInfoAccepted" checked={activationData.ficInfoAccepted} onCheckedChange={checked => setActivationData(prev => ({
+                ...prev,
+                ficInfoAccepted: checked as boolean
+              }))} className="mt-1 flex-shrink-0" />
                   <Label htmlFor="ficInfoAccepted" className="font-normal text-base cursor-pointer leading-relaxed">
                     Acepto y reconozco que la información diligenciada en la experiencia corresponde a la afiliación del FIC Skandia Efectivo administrado por Skandia Fiduciaria S.A.
                   </Label>
@@ -537,42 +516,35 @@ const ActivateGift = () => {
 
               {/* CTA Button */}
               <div className="text-center space-y-4">
-                <Button 
-                  size="lg" 
-                  variant="skandia" 
-                  onClick={async () => {
-                    if (!activationData.termsAccepted || !activationData.ficInfoAccepted) {
-                      toast.error("Por favor acepta los términos y condiciones para continuar");
-                      return;
-                    }
-                    
-                    // Enviar datos al webhook
-                    const webhookUrl = "YOUR_WEBHOOK_URL_HERE"; // Reemplazar con tu webhook
-                    try {
-                      await fetch(webhookUrl, {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        mode: "no-cors",
-                        body: JSON.stringify({
-                          code: activationData.code,
-                          name: activationData.name,
-                          phone: activationData.phone,
-                          email: activationData.email,
-                          timestamp: new Date().toISOString(),
-                        }),
-                      });
-                      console.log("Datos enviados al webhook");
-                    } catch (error) {
-                      console.error("Error al enviar datos:", error);
-                    }
-                    
-                    setStep("mobileRedirect");
-                  }} 
-                  className="text-lg px-12 h-14 shadow-lg hover:shadow-xl"
-                  disabled={!activationData.termsAccepted || !activationData.ficInfoAccepted}
-                >
+                <Button size="lg" variant="skandia" onClick={async () => {
+              if (!activationData.termsAccepted || !activationData.ficInfoAccepted) {
+                toast.error("Por favor acepta los términos y condiciones para continuar");
+                return;
+              }
+
+              // Enviar datos al webhook
+              const webhookUrl = "YOUR_WEBHOOK_URL_HERE"; // Reemplazar con tu webhook
+              try {
+                await fetch(webhookUrl, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  mode: "no-cors",
+                  body: JSON.stringify({
+                    code: activationData.code,
+                    name: activationData.name,
+                    phone: activationData.phone,
+                    email: activationData.email,
+                    timestamp: new Date().toISOString()
+                  })
+                });
+                console.log("Datos enviados al webhook");
+              } catch (error) {
+                console.error("Error al enviar datos:", error);
+              }
+              setStep("mobileRedirect");
+            }} className="text-lg px-12 h-14 shadow-lg hover:shadow-xl" disabled={!activationData.termsAccepted || !activationData.ficInfoAccepted}>
                   Iniciar vinculación a mi fondo
                 </Button>
                 <p className="text-sm text-muted-foreground max-w-md mx-auto">
