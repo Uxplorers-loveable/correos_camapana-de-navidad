@@ -442,10 +442,10 @@ const ActivateGift = () => {
                 
                 <div className="max-w-2xl mx-auto space-y-3">
                   <p className="text-2xl md:text-3xl font-semibold text-primary">
-                    Tu regalo se convierte en tu fondo de emergencias 🌱
+                    Tu Smart Gift se convierte en tu fondo de emergencias
                   </p>
                   <p className="text-lg md:text-xl text-muted-foreground">
-                    Una inversión simple, segura y digital para que tu dinero esté listo cuando lo necesites.
+                    Al vincularte, comienzas a construir tu fondo de emergencias, un lugar donde tu dinero crece sin riesgos y te brinda tranquilidad cuando más lo necesitas.
                   </p>
                 </div>
               </div>
