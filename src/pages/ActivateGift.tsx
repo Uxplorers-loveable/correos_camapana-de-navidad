@@ -464,7 +464,7 @@ const ActivateGift = () => {
             {/* CTA Section */}
             <div className="space-y-8 py-8 max-w-3xl mx-auto">
               {/* T&C Checkboxes */}
-              <div className="bg-card rounded-2xl shadow-md border border-border p-8 space-y-6">
+              <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <Checkbox 
                     id="termsAccepted" 
