@@ -11,7 +11,7 @@ import { ArrowLeft, Sparkles, Gift } from "lucide-react";
 import skandiaChannelPreview from "@/assets/skandia-channel-preview.jpg";
 const ActivateGift = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<"narrative" | "codeEntry" | "personalData" | "intro" | "benefits" | "success">("narrative");
+  const [step, setStep] = useState<"narrative" | "codeEntry" | "personalData" | "intro" | "benefits" | "mobileRedirect" | "success">("narrative");
   const [activationData, setActivationData] = useState({
     code: "",
     name: "",
@@ -82,6 +82,101 @@ const ActivateGift = () => {
           </div>
         </div>
       </div>;
+  }
+
+  // Mobile redirect screen
+  if (step === "mobileRedirect") {
+    return (
+      <div className="min-h-screen bg-gradient-subtle py-16 flex items-center">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="bg-card rounded-3xl shadow-[var(--shadow-elevated)] p-10 md:p-16 space-y-10 animate-fade-in text-center">
+            {/* Icon */}
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full"></div>
+              <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center mx-auto shadow-2xl">
+                <span className="text-5xl">📱</span>
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="space-y-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-primary">
+                ¡Tu historia continúa desde tu celular!
+              </h1>
+              <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                Este es el momento que has estado esperando
+              </p>
+            </div>
+
+            {/* Content */}
+            <div className="bg-primary/5 rounded-2xl p-8 space-y-6 border-2 border-primary/20">
+              <p className="text-lg leading-relaxed">
+                Papá Noel y Skandia han preparado algo especial: <span className="font-semibold text-primary">un proceso súper rápido y sencillo</span> para completar tu vinculación.
+              </p>
+              
+              <div className="space-y-4 text-left">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">⚡</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Rápido y simple</h3>
+                    <p className="text-muted-foreground">Solo te tomará unos minutos desde tu celular</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">🔒</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Seguro y protegido</h3>
+                    <p className="text-muted-foreground">Tu información está completamente protegida</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">🎯</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-lg mb-1">Paso a paso</h3>
+                    <p className="text-muted-foreground">Te guiaremos en cada momento del proceso</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6">
+              <p className="text-base font-semibold text-amber-900 mb-2">
+                📩 Revisa tu WhatsApp y tu correo
+              </p>
+              <p className="text-sm text-amber-800">
+                Te hemos enviado un enlace para continuar tu proceso de vinculación. ¡Es momento de convertir tu regalo en realidad!
+              </p>
+            </div>
+
+            {/* Footer message */}
+            <div className="pt-6 border-t border-border">
+              <p className="text-lg text-muted-foreground italic">
+                Tu fondo de emergencias te está esperando. 🌱
+              </p>
+            </div>
+
+            {/* Optional: Button to go back home */}
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={() => navigate("/")}
+              className="mt-4"
+            >
+              Volver al inicio
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // Success screen
@@ -501,12 +596,35 @@ const ActivateGift = () => {
                 <Button 
                   size="lg" 
                   variant="skandia" 
-                  onClick={() => {
+                  onClick={async () => {
                     if (!activationData.termsAccepted || !activationData.ficInfoAccepted) {
                       toast.error("Por favor acepta los términos y condiciones para continuar");
                       return;
                     }
-                    setStep("success");
+                    
+                    // Enviar datos al webhook
+                    const webhookUrl = "YOUR_WEBHOOK_URL_HERE"; // Reemplazar con tu webhook
+                    try {
+                      await fetch(webhookUrl, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        mode: "no-cors",
+                        body: JSON.stringify({
+                          code: activationData.code,
+                          name: activationData.name,
+                          phone: activationData.phone,
+                          email: activationData.email,
+                          timestamp: new Date().toISOString(),
+                        }),
+                      });
+                      console.log("Datos enviados al webhook");
+                    } catch (error) {
+                      console.error("Error al enviar datos:", error);
+                    }
+                    
+                    setStep("mobileRedirect");
                   }} 
                   className="text-lg px-12 h-14 shadow-lg hover:shadow-xl"
                   disabled={!activationData.termsAccepted || !activationData.ficInfoAccepted}
