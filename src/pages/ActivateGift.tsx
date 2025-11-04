@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import GiftCard from "@/components/GiftCard";
 import SmartGiftStepper from "@/components/SmartGiftStepper";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,9 @@ const ActivateGift = () => {
     name: "",
     phone: "",
     email: "",
-    dataConsent: false
+    dataConsent: false,
+    termsAccepted: false,
+    ficInfoAccepted: false
   });
 
   // Datos de ejemplo del regalo recibido
@@ -459,13 +462,61 @@ const ActivateGift = () => {
             </div>
 
             {/* CTA Section */}
-            <div className="text-center space-y-4 py-8">
-              <Button size="lg" variant="skandia" onClick={() => setStep("success")} className="text-lg px-12 h-14 shadow-lg hover:shadow-xl">
-                Iniciar vinculación a mi fondo
-              </Button>
-              <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                Empieza hoy tu fondo de emergencias y convierte tu regalo en tranquilidad financiera.
-              </p>
+            <div className="space-y-8 py-8 max-w-3xl mx-auto">
+              {/* T&C Checkboxes */}
+              <div className="bg-card rounded-2xl shadow-md border border-border p-8 space-y-6">
+                <div className="flex items-start gap-4">
+                  <Checkbox 
+                    id="termsAccepted" 
+                    checked={activationData.termsAccepted}
+                    onCheckedChange={(checked) => setActivationData(prev => ({
+                      ...prev,
+                      termsAccepted: checked as boolean
+                    }))}
+                    className="mt-1 flex-shrink-0"
+                  />
+                  <Label htmlFor="termsAccepted" className="font-normal text-base cursor-pointer leading-relaxed">
+                    Acepto y reconozco que he leído los Términos y Condiciones de la vinculación al FIC Efectivo.
+                  </Label>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <Checkbox 
+                    id="ficInfoAccepted" 
+                    checked={activationData.ficInfoAccepted}
+                    onCheckedChange={(checked) => setActivationData(prev => ({
+                      ...prev,
+                      ficInfoAccepted: checked as boolean
+                    }))}
+                    className="mt-1 flex-shrink-0"
+                  />
+                  <Label htmlFor="ficInfoAccepted" className="font-normal text-base cursor-pointer leading-relaxed">
+                    Acepto y reconozco que la información diligenciada en la experiencia corresponde a la afiliación del FIC Skandia Efectivo administrado por Skandia Fiduciaria S.A.
+                  </Label>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <div className="text-center space-y-4">
+                <Button 
+                  size="lg" 
+                  variant="skandia" 
+                  onClick={() => {
+                    if (!activationData.termsAccepted || !activationData.ficInfoAccepted) {
+                      toast.error("Por favor acepta los términos y condiciones para continuar");
+                      return;
+                    }
+                    setStep("success");
+                  }} 
+                  className="text-lg px-12 h-14 shadow-lg hover:shadow-xl"
+                  disabled={!activationData.termsAccepted || !activationData.ficInfoAccepted}
+                >
+                  Iniciar vinculación a mi fondo
+                </Button>
+                <p className="text-sm text-muted-foreground max-w-md mx-auto">
+                  Empieza hoy tu fondo de emergencias y convierte tu regalo en tranquilidad financiera.
+                </p>
+              </div>
             </div>
           </div>}
       </div>
