@@ -9,25 +9,23 @@ interface GiftCardProps {
   className?: string;
 }
 
-import template1 from "@/assets/gift-template-1.jpg";
-import template2 from "@/assets/gift-template-2.jpg";
-import template3 from "@/assets/gift-template-3.jpg";
+import giftCardBackground from "@/assets/gift-card-background.png";
 
 const templates = {
   1: {
     bg: "bg-gradient-to-br from-[hsl(0,70%,50%)] to-[hsl(0,80%,35%)]",
-    image: template1,
-    name: "Regalos Rojos"
+    image: giftCardBackground,
+    name: "Fondo Navideño"
   },
   2: {
     bg: "bg-gradient-to-br from-[hsl(0,0%,20%)] to-[hsl(0,0%,10%)]",
-    image: template2,
-    name: "Marco Navideño"
+    image: giftCardBackground,
+    name: "Fondo Navideño"
   },
   3: {
     bg: "bg-gradient-to-br from-[hsl(180,30%,65%)] to-[hsl(180,25%,50%)]",
-    image: template3,
-    name: "Estrellas Doradas"
+    image: giftCardBackground,
+    name: "Fondo Navideño"
   }
 };
 

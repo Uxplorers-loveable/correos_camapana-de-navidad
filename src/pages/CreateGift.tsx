@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import GiftCard from "@/components/GiftCard";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Check, Share2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Printer } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { QRCodeSVG } from "qrcode.react";
 
 const CreateGift = () => {
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ const CreateGift = () => {
     dataConsent: false,
     template: 1 as 1 | 2 | 3,
     amount: "",
-    occasion: "",
     message: "",
     from: "",
     to: "",
@@ -28,21 +27,7 @@ const CreateGift = () => {
   const [shareableLink, setShareableLink] = useState("");
 
   const updateFormData = (field: string, value: any) => {
-    setFormData(prev => {
-      const updated = { ...prev, [field]: value };
-      // Auto-select template based on occasion
-      if (field === "occasion") {
-        const templateMap: Record<string, 1 | 2 | 3> = {
-          navidad: 1,
-          cumpleanos: 2,
-          grado: 3,
-          matrimonio: 2,
-          otro: 1,
-        };
-        updated.template = templateMap[value] || 1;
-      }
-      return updated;
-    });
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const formatAmount = (value: string) => {
@@ -76,8 +61,8 @@ const CreateGift = () => {
         }
         break;
       case 1:
-        if (!formData.amount || !formData.occasion) {
-          toast.error("Por favor completa todos los campos");
+        if (!formData.amount) {
+          toast.error("Por favor ingresa el monto del regalo");
           return false;
         }
         break;
@@ -101,7 +86,6 @@ const CreateGift = () => {
       to: formData.to,
       amount: formData.amount,
       message: formData.message,
-      occasion: formData.occasion,
       template: formData.template,
     };
     
@@ -195,37 +179,40 @@ const CreateGift = () => {
           </div>
 
           <div className="bg-card rounded-2xl shadow-[var(--shadow-card)] p-8 md:p-12 mb-8 space-y-6 animate-fade-in">
-            <div className="space-y-4">
-              <div>
-                <Label className="text-base font-semibold mb-2 block">
-                  Link para compartir:
+            <div className="space-y-6">
+              <div className="flex flex-col items-center">
+                <Label className="text-base font-semibold mb-4 block text-center">
+                  Escanea el código QR para activar tu Smart Gift
                 </Label>
-                <div className="flex gap-2">
-                  <Input 
-                    value={shareableLink} 
-                    readOnly 
-                    className="font-mono text-sm"
+                <div className="bg-white p-6 rounded-lg shadow-lg">
+                  <QRCodeSVG 
+                    value={shareableLink}
+                    size={256}
+                    level="H"
+                    includeMargin={true}
                   />
-                  <Button
-                    variant="skandia"
-                    onClick={() => {
-                      navigator.clipboard.writeText(shareableLink);
-                      toast.success("Link copiado al portapapeles");
-                    }}
-                  >
-                    Copiar
-                  </Button>
                 </div>
+                <Button
+                  variant="skandia"
+                  size="lg"
+                  className="mt-6"
+                  onClick={() => {
+                    window.print();
+                  }}
+                >
+                  <Printer className="mr-2 h-5 w-5" />
+                  Imprimir
+                </Button>
               </div>
               
               <div className="pt-4 space-y-3 text-base">
                 <p className="flex items-start gap-3">
                   <span className="text-2xl">🎁</span>
-                  <span>Comparte este link con <strong>{formData.to}</strong> cuando quieras.</span>
+                  <span>Comparte este código QR con <strong>{formData.to}</strong> cuando quieras.</span>
                 </p>
                 <p className="flex items-start gap-3">
                   <span className="text-2xl">⏰</span>
-                  <span>Tendrá 30 días para activar su Smart Gift desde que reciba el link.</span>
+                  <span>Tendrá 30 días para activar su Smart Gift desde que reciba el código.</span>
                 </p>
                 <p className="flex items-start gap-3">
                   <span className="text-2xl">🔔</span>
@@ -236,17 +223,6 @@ const CreateGift = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg"
-              variant="skandia"
-              onClick={() => {
-                const message = `🎁 ¡Hola! Te he enviado un Smart Gift de Skandia. Actívalo aquí: ${shareableLink}`;
-                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
-              }}
-            >
-              <Share2 className="mr-2 h-5 w-5" />
-              Compartir por WhatsApp
-            </Button>
             <Button 
               size="lg"
               variant="outline"
@@ -260,7 +236,6 @@ const CreateGift = () => {
                   dataConsent: false,
                   template: 1 as 1 | 2 | 3,
                   amount: "",
-                  occasion: "",
                   message: "",
                   from: "",
                   to: "",
@@ -302,10 +277,6 @@ const CreateGift = () => {
               <div className="flex justify-between py-2 border-b">
                 <span className="text-muted-foreground">Monto:</span>
                 <span className="font-medium text-lg">${formData.amount}</span>
-              </div>
-              <div className="flex justify-between py-2 border-b">
-                <span className="text-muted-foreground">Ocasión:</span>
-                <span className="font-medium capitalize">{formData.occasion}</span>
               </div>
               {formData.message && (
                 <div className="py-2">
@@ -420,7 +391,7 @@ const CreateGift = () => {
             {currentStep === 1 && (
               <div className="space-y-6 animate-fade-in">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">Monto y ocasión</h2>
+                  <h2 className="text-2xl font-bold mb-2">Monto del regalo</h2>
                   <p className="text-muted-foreground">
                     Define el valor de tu Smart Gift
                   </p>
@@ -435,21 +406,6 @@ const CreateGift = () => {
                       value={formData.amount}
                       onChange={(e) => handleAmountChange(e.target.value)}
                     />
-                  </div>
-                  <div>
-                    <Label htmlFor="occasion">Ocasión</Label>
-                    <Select value={formData.occasion} onValueChange={(value) => updateFormData("occasion", value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona una ocasión" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="navidad">🎄 Navidad</SelectItem>
-                        <SelectItem value="cumpleanos">🎂 Cumpleaños</SelectItem>
-                        <SelectItem value="grado">🎓 Graduación</SelectItem>
-                        <SelectItem value="matrimonio">💍 Matrimonio</SelectItem>
-                        <SelectItem value="otro">🎁 Otra ocasión</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
                   <div>
                     <Label htmlFor="message">Mensaje personalizado</Label>
