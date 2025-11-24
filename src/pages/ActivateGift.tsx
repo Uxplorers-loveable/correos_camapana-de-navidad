@@ -86,7 +86,7 @@ const ActivateGift = () => {
               </div>
             </div>
 
-            <Button size="lg" variant="skandia" onClick={() => setStep("codeEntry")}>
+            <Button size="lg" variant="skandia" onClick={() => setStep("personalData")}>
               Descubre tu regalo
             </Button>
           </div>
@@ -299,7 +299,7 @@ const ActivateGift = () => {
   if (step === "personalData") {
     return <div className="min-h-screen bg-gradient-subtle py-8">
         <div className="container mx-auto px-4 max-w-2xl">
-          <Button variant="ghost" onClick={() => setStep("codeEntry")} className="mb-6">
+          <Button variant="ghost" onClick={() => setStep("narrative")} className="mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Volver
           </Button>
