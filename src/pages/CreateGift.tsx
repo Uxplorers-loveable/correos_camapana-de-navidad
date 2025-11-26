@@ -118,7 +118,7 @@ const CreateGift = () => {
               {[{
               num: "1",
               title: "Crea tu Smart Gift personalizado",
-              desc: "Elige el diseño, monto y mensaje perfecto"
+              desc: "Elige el monto y mensaje perfecto"
             }, {
               num: "2",
               title: "La persona que la reciba podrá activarla en 30 días",
