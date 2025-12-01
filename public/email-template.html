@@ -17,41 +17,31 @@
       background-color: #ffffff;
     }
     .header {
-      background: linear-gradient(135deg, #00C73D 0%, #00A832 100%);
+      background-image: url('/email-assets/header-background.png');
+      background-size: cover;
+      background-position: center;
       padding: 40px 20px 60px;
       position: relative;
       overflow: hidden;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50px;
-      left: -30px;
-      width: 150px;
-      height: 150px;
-      background: rgba(163, 230, 53, 0.3);
-      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      transform: rotate(45deg);
-    }
-    .header::after {
-      content: '';
-      position: absolute;
-      bottom: -40px;
-      right: -40px;
-      width: 180px;
-      height: 180px;
-      background: rgba(163, 230, 53, 0.25);
-      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-      transform: rotate(-30deg);
     }
     .logo-container {
       text-align: center;
       position: relative;
       z-index: 2;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     .logo {
       width: 140px;
+      height: auto;
+    }
+    .checkmark-container {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 30px;
+    }
+    .checkmark-icon {
+      width: 100px;
       height: auto;
     }
     .header-title {
@@ -243,9 +233,10 @@
     <!-- Header -->
     <div class="header">
       <div class="logo-container">
-        <svg class="logo" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="10" y="24" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white">skandia</text>
-        </svg>
+        <img src="/email-assets/skandia-logo.png" alt="Skandia" class="logo">
+      </div>
+      <div class="checkmark-container">
+        <img src="/email-assets/checkmark-icon.png" alt="Éxito" class="checkmark-icon">
       </div>
       <h1 class="header-title">Tu Smart Gift ha sido<br>creado con éxito</h1>
       <p class="header-subtitle">Tu regalo ya está listo para compartirse</p>
