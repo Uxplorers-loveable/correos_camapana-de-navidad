@@ -8,6 +8,7 @@ import CreateSmartGiftHome from "./pages/CreateSmartGiftHome";
 import ActivateGiftHome from "./pages/ActivateGiftHome";
 import CreateGift from "./pages/CreateGift";
 import ActivateGift from "./pages/ActivateGift";
+import EmailPreview from "./pages/EmailPreview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/inicio-activar" element={<ActivateGiftHome />} />
           <Route path="/crear-regalo" element={<CreateGift />} />
           <Route path="/activar" element={<ActivateGift />} />
+          <Route path="/email-preview" element={<EmailPreview />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
