@@ -5,7 +5,7 @@ const EmailPreviewPayment = () => {
 
   useEffect(() => {
     // Cargar el template del correo de pago
-    fetch('/src/templates/email/smart-gift-payment.html')
+    fetch('/smart-gift-payment.html')
       .then(response => response.text())
       .then(html => {
         // Reemplazar variables de ejemplo
