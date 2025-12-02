@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Smart Gift ya fue activado</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+    }
+    .header {
+      background-image: url('/email-assets/header-background.png');
+      background-size: cover;
+      background-position: center;
+      padding: 40px 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .logo-container {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 140px;
+      height: auto;
+    }
+    .checkmark-container {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 30px;
+    }
+    .checkmark-icon {
+      width: 100px;
+      height: auto;
+    }
+    .header-title {
+      text-align: center;
+      color: #ffffff;
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .header-subtitle {
+      text-align: center;
+      color: #ffffff;
+      position: relative;
+      z-index: 2;
+      margin: 8px 0 0 0;
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.95;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .greeting {
+      color: #00C73D;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 20px 0;
+    }
+    .message {
+      color: #333333;
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0 0 30px 0;
+    }
+    .main-card {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 30px;
+      margin: 0 0 30px 0;
+    }
+    .card-title {
+      color: #333333;
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 25px 0;
+      text-align: center;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .info-label {
+      color: #666666;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .info-value {
+      color: #333333;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .steps-section {
+      margin: 30px 0;
+    }
+    .steps-title {
+      color: #333333;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+    }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      margin: 0 0 20px 0;
+    }
+    .step-icon {
+      background: #00C73D;
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-right: 15px;
+      font-weight: 600;
+    }
+    .step-text {
+      color: #333333;
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+      padding-top: 6px;
+    }
+    .step-text strong {
+      font-weight: 600;
+    }
+    .cta-button {
+      display: inline-block;
+      background: #00C73D;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 16px 50px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      margin: 30px auto 0;
+      display: block;
+      width: fit-content;
+      transition: background 0.3s ease;
+    }
+    .cta-button:hover {
+      background: #00A832;
+    }
+    .footer {
+      background: #ffffff;
+      padding: 40px 30px;
+      text-align: center;
+      border-top: 1px solid #e5e5e5;
+    }
+    .footer-logo {
+      color: #00C73D;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .social-icons {
+      margin: 0 0 25px 0;
+    }
+    .social-icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      margin: 0 8px;
+      text-decoration: none;
+      color: #00C73D;
+      font-size: 20px;
+      line-height: 40px;
+    }
+    .footer-text {
+      color: #999999;
+      font-size: 11px;
+      line-height: 1.6;
+      margin: 0;
+      text-align: justify;
+    }
+    @media only screen and (max-width: 600px) {
+      .content {
+        padding: 30px 20px;
+      }
+      .main-card {
+        padding: 20px;
+      }
+      .header-title {
+        font-size: 24px;
+      }
+      .cta-button {
+        padding: 14px 30px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-container">
+        <img src="/email-assets/skandia-logo.png" alt="Skandia" class="logo">
+      </div>
+      <div class="checkmark-container">
+        <img src="/email-assets/checkmark-icon.png" alt="Éxito" class="checkmark-icon">
+      </div>
+      <h1 class="header-title">Tu Smart Gift<br>ya fue activado</h1>
+      <p class="header-subtitle">Ahora puedes completar el pago de tu regalo</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p class="greeting">¡Buenas noticias!</p>
+      
+      <p class="message">
+        La persona que elegiste ya activó su Smart Gift.<br><br>
+        Ahora puedes completar el pago para que su inversión empiece a crecer y siga acompañando su camino hacia un futuro financiero más fuerte.
+      </p>
+
+      <!-- Main Card -->
+      <div class="main-card">
+        <h2 class="card-title">Detalles del Smart Gift</h2>
+        
+        <div class="info-row">
+          <span class="info-label">Destinatario</span>
+          <span class="info-value">{{nombreDestinatario}}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Documento</span>
+          <span class="info-value">{{documentoDestinatario}}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Valor del regalo</span>
+          <span class="info-value">{{valorGift}}</span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Código de contrato</span>
+          <span class="info-value">{{codigoContrato}}</span>
+        </div>
+      </div>
+
+      <!-- Steps Section -->
+      <div class="steps-section">
+        <h3 class="steps-title">Para completar el pago necesitas:</h3>
+
+        <div class="step-item">
+          <div class="step-icon">1</div>
+          <p class="step-text"><strong>Tener a la mano el número de documento del destinatario.</strong></p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-icon">2</div>
+          <p class="step-text"><strong>Elegir el contrato de inversión asociado al Smart Gift.</strong></p>
+        </div>
+
+        <div class="step-item">
+          <div class="step-icon">3</div>
+          <p class="step-text"><strong>Realizar el pago por el valor del regalo.</strong></p>
+        </div>
+      </div>
+
+      <!-- CTA Button -->
+      <a href="#" class="cta-button">Completar pago</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <a href="https://skandia.co" class="footer-logo">skandia.co</a>
+      
+      <div class="social-icons">
+        <a href="#" class="social-icon"><img src="/email-assets/instagram-icon.png" alt="Instagram" style="width: 24px; height: 24px;"></a>
+        <a href="#" class="social-icon">𝕏</a>
+        <a href="#" class="social-icon"><img src="/email-assets/youtube-icon.png" alt="YouTube" style="width: 24px; height: 24px;"></a>
+        <a href="#" class="social-icon"><img src="/email-assets/linkedin-icon.png" alt="LinkedIn" style="width: 24px; height: 24px;"></a>
+      </div>
+
+      <p class="footer-text">
+        Skandia le podrá enviar mensajes vía correo electrónico con enlaces a sitios informativos de la Compañía; en los mismos, nunca se solicitará el ingreso de información y/o claves personales. En caso de encontrar alguna irregularidad, agradecemos que la misma sea reportada a <a href="mailto:ciberseguridad@skandia.com.co" style="color: #00C73D; text-decoration: none;">ciberseguridad@skandia.com.co</a>. Para conocer nuestra política de tratamiento de datos, ingrese <a href="#" style="color: #00C73D; text-decoration: none;">aquí</a>. Recuerde que puede enviar sus consultas a <a href="mailto:cliente@skandia.com.co" style="color: #00C73D; text-decoration: none;">cliente@skandia.com.co</a>. Por favor no responda este correo electrónico. La información contenida en este e-mail es confidencial y sólo puede ser utilizada por la persona a la cual está dirigida. Si usted no es el receptor autorizado, cualquier retención, difusión, distribución o copia de este mensaje está prohibida y será sancionada de conformidad con las leyes aplicables. Si por error recibe este mensaje, por favor elimínelo de manera inmediata.
+      </p>
+    </div>
+  </div>
+</body>
+</html>
